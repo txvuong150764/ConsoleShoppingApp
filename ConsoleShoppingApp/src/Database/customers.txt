@@ -1,4 +1,4 @@
-Vuong, 123456, FlowerShop, 99, flower: 19 | candy: 10, 0
-Mai, 473928, MeatShop, 199, flower: 11 | candy: 10, 0
-Dung, 654321, FlowerShop, 299, flower: 13 | candy: 10, 0
-Tran, 135792, MeatShop, 399, flower: 14 | candy: 10, 0
+Vuong, 123456, FlowerShop, 99, flower: 19: 2 | candy: 10: 1, 0
+Mai, 473928, MeatShop, 199, flower: 11: 1 | candy: 10: 1, 0
+Dung, 654321, FlowerShop, 299, flower: 13: 3 | candy: 10: 1, 0
+Tran, 135792, MeatShop, 399, flower: 14: 1 | candy: 10: 2, 0

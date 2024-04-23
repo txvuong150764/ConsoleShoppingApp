@@ -18,15 +18,8 @@ public class CustomerService {
         }
         return null;
     }
-
-    public void viewCart(Customer customer) {
-        cartService.viewCart(customer);
-    }
     public void viewRank(Customer customer) {
         System.out.println("Your rank is " + customer.getRank() + " with " + customer.getLoyalPoints() + " loyalty points.");
-    }
-    public void viewItems(Customer customer) {
-        shopService.viewItems(customer.getShop());
     }
     public Customer login(ArrayList<Customer> customers) {
         Scanner sc = new Scanner(System.in);

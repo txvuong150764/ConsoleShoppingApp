@@ -1,16 +1,19 @@
 import DTO.Customer;
 import Service.CartService;
 import Service.CustomerService;
+import Service.ShopService;
 import Utils.Utils;
 
 import java.util.ArrayList;
-import java.util.Scanner;
 
 import Enum.MainMenuOption;
 import Enum.ShoppingCartOption;
+import Enum.ShoppingOption;
 
 public class Main {
     static CustomerService customerService = new CustomerService();
+    static CartService cartService = new CartService();
+    static ShopService shopService = new ShopService();
     public static void main(String[] args) {
         ArrayList<Customer> customers = Utils.readCustomersFile("C:\\Users\\Tran Xuan Vuong\\OneDrive\\Máy tính\\Java Course\\ConsoleShoppingApp\\ConsoleShoppingApp\\src\\Database\\customers.txt");
         for(Customer customer : customers) {
@@ -28,7 +31,7 @@ public class Main {
             switch (mainMenuOption) {
                 case VIEW_CART -> {
                     boolean backToMainMenu = false;
-                    customerService.viewCart(loggedInCustomer);
+                    cartService.viewCart(loggedInCustomer);
                     while(!backToMainMenu) {
                         ShoppingCartOption shoppingCartOption = ShoppingCartOption.fromInput(Utils.getCartCustomerInput());
                         if(shoppingCartOption == null) {
@@ -36,15 +39,27 @@ public class Main {
                             continue;
                         }
                         switch (shoppingCartOption) {
-                            case CHECK_OUT -> {
-                                break;
-                            }
+                            case CHECK_OUT -> cartService.checkOut(loggedInCustomer);
                             case RETURN -> backToMainMenu = true;
                         }
                     }
                 }
                 case VIEW_RANK -> customerService.viewRank(loggedInCustomer);
-                case VIEW_SHOP_ITEMS -> customerService.viewItems(loggedInCustomer);
+                case VIEW_SHOP_ITEMS -> {
+                    boolean backToMainMenu = false;
+                    shopService.viewItems(loggedInCustomer);
+                    while(!backToMainMenu) {
+                        ShoppingOption shoppingOption = ShoppingOption.fromInput(Utils.getShopCustomerInput());
+                        if(shoppingOption == null) {
+                            System.out.println("Your option is invalid. Please try again with 1 or 2");
+                            continue;
+                        }
+                        switch (shoppingOption) {
+                            case BUY -> shopService.buyItem(loggedInCustomer);
+                            case RETURN -> backToMainMenu = true;
+                        }
+                    }
+                }
             }
         }
     }

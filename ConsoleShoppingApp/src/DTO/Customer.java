@@ -16,21 +16,30 @@ public class Customer {
         this.password = password;
         this.shop = shop;
         this.loyalPoints = loyalPoints;
-        this.rank = this.setRank(loyalPoints);
+        this.setRank(loyalPoints);
+        this.shoppingCart = shoppingCart;
+        this.discountRate = 0;
+    }
+
+    public void setShoppingCart(ArrayList<Item> shoppingCart) {
         this.shoppingCart = shoppingCart;
     }
-    public String setRank(float loyalPoints) {
+    public void addNewItemToCart(Item item) {
+        this.shoppingCart.add(item);
+    }
+
+    public void setRank(float loyalPoints) {
         if(loyalPoints < 100) {
-            return "Common";
+            this.rank = "Common";
         }
         else if(loyalPoints >= 100 && loyalPoints < 200) {
-            return "Silver";
+            this.rank = "Silver";
         }
         else if(loyalPoints >= 200 && loyalPoints < 300) {
-            return "Gold";
+            this.rank = "Gold";
         }
         else {
-            return "Diamond";
+            this.rank = "Diamond";
         }
     }
 
@@ -54,6 +63,10 @@ public class Customer {
         return rank;
     }
 
+    public void setLoyalPoints(float loyalPoints) {
+        this.loyalPoints = loyalPoints;
+    }
+
     public ArrayList<Item> getShoppingCart() {
         return shoppingCart;
     }
@@ -65,13 +78,13 @@ public class Customer {
     public Customer classifyCustomer(String rank) {
         switch (rank) {
             case "Silver" -> {
-                return new SilverCustomer(this.name, this.password, this.shop, this.loyalPoints, this.shoppingCart, 0.1F);
+                return new SilverCustomer(this.name, this.password, this.shop, this.loyalPoints, this.shoppingCart);
             }
             case "Gold" -> {
-                return new GoldCustomer(this.name, this.password, this.shop, this.loyalPoints, this.shoppingCart, 0.2F);
+                return new GoldCustomer(this.name, this.password, this.shop, this.loyalPoints, this.shoppingCart);
             }
             case "Diamond" -> {
-                return new DiamondCustomer(this.name, this.password, this.shop, this.loyalPoints, this.shoppingCart, 0.3F);
+                return new DiamondCustomer(this.name, this.password, this.shop, this.loyalPoints, this.shoppingCart);
             }
             default -> {
                 return new Customer(this.name, this.password, this.shop, this.loyalPoints, this.shoppingCart);

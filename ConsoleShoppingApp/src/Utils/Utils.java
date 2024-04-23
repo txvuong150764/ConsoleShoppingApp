@@ -11,15 +11,15 @@ import java.util.Scanner;
 
 public class Utils {
     public static void printItemHeader() {
-        System.out.println("-------------------------------------");
-        System.out.format("| %-15s | %-15s |", "Item", "Price");
-        System.out.println("\n-------------------------------------");
+        System.out.println("-------------------------------------------------------");
+        System.out.format("| %-15s | %-15s | %-15s |", "Item", "Price", "Amount");
+        System.out.println("\n-------------------------------------------------------");
     }
-    public static void printItem(String name, float price) {
-        System.out.format("| %-15s | %-15s |\n", name, price);
+    public static void printItem(String name, float price, int amount) {
+        System.out.format("| %-15s | %-15s | %-15s |\n", name, price, amount);
     }
     public static void printItemEnd() {
-        System.out.println("-------------------------------------");
+        System.out.println("-------------------------------------------------------");
     }
     public static int getMainMenuCustomerInput(String name) {
         Scanner sc = new Scanner(System.in);
@@ -33,6 +33,13 @@ public class Utils {
     public static int getCartCustomerInput() {
         Scanner sc = new Scanner(System.in);
         System.out.println("1. Check Out");
+        System.out.println("2. Return to Main Menu");
+        System.out.print("Please enter your option: ");
+        return sc.nextInt();
+    }
+    public static int getShopCustomerInput() {
+        Scanner sc = new Scanner(System.in);
+        System.out.println("1. Buy");
         System.out.println("2. Return to Main Menu");
         System.out.print("Please enter your option: ");
         return sc.nextInt();
@@ -67,8 +74,9 @@ public class Utils {
         String[] items = itemList.split("\\|");
         for(String item : items) {
             String itemName = item.split(":")[0].trim();
-            float price = Float.parseFloat(item.split(":")[1]);
-            Item i = new Item(itemName, price);
+            float price = Float.parseFloat(item.split(":")[1].trim());
+            int amount = Integer.parseInt(item.split(":")[2].trim());
+            Item i = new Item(itemName, price, amount);
             shoppingCart.add(i);
         }
 
@@ -84,8 +92,8 @@ public class Utils {
                 while(sc.hasNextLine()) {
                     String itemInfo = sc.nextLine();
                     if(!itemInfo.isEmpty()) {
-                        String[] itemInfoSplited = itemInfo.split(",", 2);
-                        itemList.add(new Item(itemInfoSplited[0].trim(), Float.parseFloat(itemInfoSplited[1])));
+                        String[] itemInfoSplited = itemInfo.split(",", 3);
+                        itemList.add(new Item(itemInfoSplited[0].trim(), Float.parseFloat(itemInfoSplited[1].trim()), Integer.parseInt(itemInfoSplited[2].trim())));
                     }
                 }
                 sc.close();
