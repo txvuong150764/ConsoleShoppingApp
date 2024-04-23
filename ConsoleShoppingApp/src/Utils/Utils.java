@@ -1,3 +1,5 @@
+package Utils;
+
 import DTO.Customer;
 import DTO.Item;
 
@@ -7,6 +9,26 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 public class Utils {
+    public static void printItemHeader() {
+        System.out.println("-------------------------------------");
+        System.out.format("| %-15s | %-15s |", "Item", "Price");
+        System.out.println("\n-------------------------------------");
+    }
+    public static void printItem(String name, float price) {
+        System.out.format("| %-15s | %-15s |\n", name, price);
+    }
+    public static void printItemEnd() {
+        System.out.println("-------------------------------------");
+    }
+    public static int getMainMenuCustomerInput(String name) {
+        Scanner sc = new Scanner(System.in);
+        System.out.println("Welcome " + name + " to Main Menu");
+        System.out.println("1. View Cart");
+        System.out.println("2. View Rank");
+        System.out.println("3. View Shopping Item");
+        System.out.print("Please enter your option: ");
+        return sc.nextInt();
+    }
     public static ArrayList<Customer> readCustomersFile(String fileName) {
         ArrayList<Customer> customers = new ArrayList<>();
         try {
@@ -24,9 +46,6 @@ public class Utils {
                     }
                 }
                 sc.close();
-            }
-            else {
-                myFile.createNewFile();
             }
         } catch (IOException e) {
             throw new RuntimeException(e);
@@ -46,4 +65,5 @@ public class Utils {
 
         return shoppingCart;
     }
+
 }
