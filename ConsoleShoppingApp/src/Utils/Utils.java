@@ -2,6 +2,7 @@ package Utils;
 
 import DTO.Customer;
 import DTO.Item;
+import DTO.Shop;
 
 import java.io.File;
 import java.io.IOException;
@@ -29,6 +30,13 @@ public class Utils {
         System.out.print("Please enter your option: ");
         return sc.nextInt();
     }
+    public static int getCartCustomerInput() {
+        Scanner sc = new Scanner(System.in);
+        System.out.println("1. Check Out");
+        System.out.println("2. Return to Main Menu");
+        System.out.print("Please enter your option: ");
+        return sc.nextInt();
+    }
     public static ArrayList<Customer> readCustomersFile(String fileName) {
         ArrayList<Customer> customers = new ArrayList<>();
         try {
@@ -39,9 +47,10 @@ public class Utils {
                     String customerInfo = sc.nextLine();
                     if(!customerInfo.isEmpty()) {
                         String[] customerInfoSplited = customerInfo.split(",", 6);
+                        Shop shop = readShopFile(customerInfoSplited[2].trim());
                         ArrayList<Item> shoppingCart = readShoppingCart(customerInfoSplited[4]);
 
-                        Customer customer = new Customer(customerInfoSplited[0].trim(), customerInfoSplited[1].trim(), customerInfoSplited[2].trim(), Float.parseFloat(customerInfoSplited[3]), shoppingCart, Float.parseFloat(customerInfoSplited[5]));
+                        Customer customer = new Customer(customerInfoSplited[0].trim(), customerInfoSplited[1].trim(), shop, Float.parseFloat(customerInfoSplited[3]), shoppingCart);
                         customers.add(customer);
                     }
                 }
@@ -64,6 +73,28 @@ public class Utils {
         }
 
         return shoppingCart;
+    }
+
+    public static Shop readShopFile(String shopName) {
+        try {
+            File myFile = new File("C:\\Users\\Tran Xuan Vuong\\OneDrive\\Máy tính\\Java Course\\ConsoleShoppingApp\\ConsoleShoppingApp\\src\\Database\\" + shopName + ".txt");
+            if(!myFile.isDirectory()) {
+                Scanner sc = new Scanner(myFile);
+                ArrayList<Item> itemList = new ArrayList<>();
+                while(sc.hasNextLine()) {
+                    String itemInfo = sc.nextLine();
+                    if(!itemInfo.isEmpty()) {
+                        String[] itemInfoSplited = itemInfo.split(",", 2);
+                        itemList.add(new Item(itemInfoSplited[0].trim(), Float.parseFloat(itemInfoSplited[1])));
+                    }
+                }
+                sc.close();
+                return new Shop(shopName, itemList);
+            }
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        return null;
     }
 
 }

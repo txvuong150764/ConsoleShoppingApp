@@ -1,0 +1,6 @@
+Rose, 10
+Tulip, 11
+Blossom, 7
+Aconite, 8
+Orchids, 20
+Daisies, 17

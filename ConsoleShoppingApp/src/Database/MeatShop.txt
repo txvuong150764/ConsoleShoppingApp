@@ -1,0 +1,6 @@
+beef, 25
+pork, 13
+chicken, 8
+lamb, 20
+fish, 17
+goat, 30

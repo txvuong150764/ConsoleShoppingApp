@@ -5,19 +5,19 @@ import java.util.ArrayList;
 public class Customer {
     String name;
     String password;
-    String shop;
+    Shop shop;
     float loyalPoints;
     String rank;
     ArrayList<Item> shoppingCart;
+    ArrayList<Voucher> voucherList;
     float discountRate;
-    public Customer(String name, String password, String shop, float loyalPoints, ArrayList<Item> shoppingCart, float discountRate) {
+    public Customer(String name, String password, Shop shop, float loyalPoints, ArrayList<Item> shoppingCart) {
         this.name = name;
         this.password = password;
         this.shop = shop;
         this.loyalPoints = loyalPoints;
         this.rank = this.setRank(loyalPoints);
         this.shoppingCart = shoppingCart;
-        this.discountRate = discountRate;
     }
     public String setRank(float loyalPoints) {
         if(loyalPoints < 100) {
@@ -42,7 +42,7 @@ public class Customer {
         return password;
     }
 
-    public String getShop() {
+    public Shop getShop() {
         return shop;
     }
 
@@ -65,16 +65,16 @@ public class Customer {
     public Customer classifyCustomer(String rank) {
         switch (rank) {
             case "Silver" -> {
-                return new SilverCustomer(this.name, this.password, this.shop, this.loyalPoints, this.shoppingCart, this.discountRate);
+                return new SilverCustomer(this.name, this.password, this.shop, this.loyalPoints, this.shoppingCart, 0.1F);
             }
             case "Gold" -> {
-                return new GoldCustomer(this.name, this.password, this.shop, this.loyalPoints, this.shoppingCart, this.discountRate);
+                return new GoldCustomer(this.name, this.password, this.shop, this.loyalPoints, this.shoppingCart, 0.2F);
             }
             case "Diamond" -> {
-                return new DiamondCustomer(this.name, this.password, this.shop, this.loyalPoints, this.shoppingCart, this.discountRate);
+                return new DiamondCustomer(this.name, this.password, this.shop, this.loyalPoints, this.shoppingCart, 0.3F);
             }
             default -> {
-                return new Customer(this.name, this.password, this.shop, this.loyalPoints, this.shoppingCart, this.discountRate);
+                return new Customer(this.name, this.password, this.shop, this.loyalPoints, this.shoppingCart);
             }
         }
     }
