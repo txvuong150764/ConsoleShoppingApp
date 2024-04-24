@@ -3,7 +3,8 @@ package Enum;
 public enum MainMenuOption {
     VIEW_CART(1),
     VIEW_RANK(2),
-    VIEW_SHOP_ITEMS(3);
+    VIEW_SHOP_ITEMS(3),
+    EXIT(4);
 
     private final int value;
     private MainMenuOption(int value) {

@@ -1,9 +1,8 @@
 package Service;
 
-import DTO.Customer;
+import DTO.Cutomer.Customer;
 import DTO.Item;
 import Utils.Utils;
-import Service.CartService;
 
 import java.util.Scanner;
 
@@ -35,6 +34,7 @@ public class ShopService {
                 }
                 item.setAmount(item.getAmount() - amount);
                 cartService.updateCart(customer, item, amount);
+                System.out.println("You bought " + amount + " " + item.getName());
                 return;
             }
         }

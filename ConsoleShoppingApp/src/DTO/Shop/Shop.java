@@ -1,4 +1,7 @@
-package DTO;
+package DTO.Shop;
+
+import DTO.Item;
+import DTO.Voucher.Voucher;
 
 import java.util.ArrayList;
 import java.util.HashMap;

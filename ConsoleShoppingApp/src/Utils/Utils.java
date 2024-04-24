@@ -1,8 +1,8 @@
 package Utils;
 
-import DTO.Customer;
+import DTO.Cutomer.Customer;
 import DTO.Item;
-import DTO.Shop;
+import DTO.Shop.Shop;
 
 import java.io.File;
 import java.io.IOException;
@@ -27,6 +27,7 @@ public class Utils {
         System.out.println("1. View Cart");
         System.out.println("2. View Rank");
         System.out.println("3. View Shopping Item");
+        System.out.println("4. Exit");
         System.out.print("Please enter your option: ");
         return sc.nextInt();
     }
@@ -71,8 +72,12 @@ public class Utils {
     public static ArrayList<Item> readShoppingCart(String itemList) {
         ArrayList<Item> shoppingCart = new ArrayList<>();
 
+        if(itemList.trim().isEmpty()) {
+            return shoppingCart;
+        }
+
         String[] items = itemList.split("\\|");
-        for(String item : items) {
+        for (String item : items) {
             String itemName = item.split(":")[0].trim();
             float price = Float.parseFloat(item.split(":")[1].trim());
             int amount = Integer.parseInt(item.split(":")[2].trim());

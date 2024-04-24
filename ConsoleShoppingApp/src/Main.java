@@ -1,4 +1,4 @@
-import DTO.Customer;
+import DTO.Cutomer.Customer;
 import Service.CartService;
 import Service.CustomerService;
 import Service.ShopService;
@@ -16,9 +16,6 @@ public class Main {
     static ShopService shopService = new ShopService();
     public static void main(String[] args) {
         ArrayList<Customer> customers = Utils.readCustomersFile("C:\\Users\\Tran Xuan Vuong\\OneDrive\\Máy tính\\Java Course\\ConsoleShoppingApp\\ConsoleShoppingApp\\src\\Database\\customers.txt");
-        for(Customer customer : customers) {
-            System.out.println(customer.toString());
-        }
 
         Customer loggedInCustomer = customerService.login(customers);
 
@@ -59,6 +56,10 @@ public class Main {
                             case RETURN -> backToMainMenu = true;
                         }
                     }
+                }
+                case EXIT -> {
+                    System.out.println("Thanks for using our app.");
+                    System.exit(0);
                 }
             }
         }

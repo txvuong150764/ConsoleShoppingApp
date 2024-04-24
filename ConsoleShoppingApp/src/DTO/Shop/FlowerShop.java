@@ -1,7 +1,8 @@
-package DTO;
+package DTO.Shop;
+
+import DTO.Item;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 
 public class FlowerShop extends Shop{
     public FlowerShop(String name, ArrayList<Item> itemList) {

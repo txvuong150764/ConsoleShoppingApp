@@ -1,4 +1,8 @@
-package DTO;
+package DTO.Cutomer;
+
+import DTO.Item;
+import DTO.Shop.Shop;
+import DTO.Voucher.Voucher;
 
 import java.util.ArrayList;
 
@@ -19,6 +23,7 @@ public class Customer {
         this.setRank(loyalPoints);
         this.shoppingCart = shoppingCart;
         this.discountRate = 0;
+        this.voucherList = new ArrayList<>();
     }
 
     public void setShoppingCart(ArrayList<Item> shoppingCart) {

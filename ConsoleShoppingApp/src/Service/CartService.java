@@ -1,6 +1,6 @@
 package Service;
 
-import DTO.Customer;
+import DTO.Cutomer.Customer;
 import DTO.Item;
 import Utils.Utils;
 

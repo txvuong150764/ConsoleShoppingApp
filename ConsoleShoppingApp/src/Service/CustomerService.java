@@ -1,15 +1,11 @@
 package Service;
 
-import DTO.Customer;
-import DTO.Item;
-import Utils.Utils;
+import DTO.Cutomer.Customer;
 
 import java.util.ArrayList;
 import java.util.Scanner;
 
 public class CustomerService {
-    public CartService cartService = new CartService();
-    public ShopService shopService = new ShopService();
     public Customer getCustomer(ArrayList<Customer> customers, String name, String password) {
         for(Customer customer : customers) {
             if(customer.getName().equals(name) && customer.getPassword().equals(password)) {
@@ -26,7 +22,7 @@ public class CustomerService {
         System.out.println("\n---------------------------- Login Screen ----------------------------");
         System.out.print("                      Name: ");
         String name = sc.nextLine();
-        System.out.print("                      Password    : ");
+        System.out.print("                      Password: ");
         String password = sc.nextLine();
 
         Customer loginUser = this.getCustomer(customers, name, password);
