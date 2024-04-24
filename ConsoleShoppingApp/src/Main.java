@@ -1,4 +1,6 @@
 import DTO.Cutomer.Customer;
+import DTO.Shipping.BasicShipping;
+import DTO.Shipping.Shipping;
 import Service.CartService;
 import Service.CustomerService;
 import Service.ShopService;
@@ -9,6 +11,8 @@ import java.util.ArrayList;
 import Enum.MainMenuOption;
 import Enum.ShoppingCartOption;
 import Enum.ShoppingOption;
+import Enum.ShippingMethod;
+import Enum.CheckoutOption;
 
 public class Main {
     static CustomerService customerService = new CustomerService();
@@ -27,6 +31,7 @@ public class Main {
             }
             switch (mainMenuOption) {
                 case VIEW_CART -> {
+                    System.out.println("Welcome to Shopping Cart");
                     boolean backToMainMenu = false;
                     cartService.viewCart(loggedInCustomer);
                     while(!backToMainMenu) {
@@ -36,7 +41,46 @@ public class Main {
                             continue;
                         }
                         switch (shoppingCartOption) {
-                            case CHECK_OUT -> cartService.checkOut(loggedInCustomer);
+                            case SELECT_SHIPPING_METHOD -> {
+                                if(cartService.isEmpty(loggedInCustomer)) {
+                                    System.out.println("Your cart is empty. Redirect to main menu");
+                                    backToMainMenu = true;
+                                    break;
+                                }
+                                boolean backToCartMenu = false;
+                                while (!backToCartMenu) {
+                                    ShippingMethod shippingMethod = ShippingMethod.fromInput(Utils.getShippingCustomerInput());
+                                    if (shippingMethod == null) {
+                                        System.out.println("Your option is invalid. Please try again with 1 to 4");
+                                        continue;
+                                    }
+
+                                    if (shippingMethod == ShippingMethod.RETURN)
+                                        break;
+
+                                    Shipping shipping = Shipping.classifyShippingMethod(shippingMethod);
+                                    cartService.viewCartToCheckout(loggedInCustomer, shipping);
+
+                                    boolean backToShippingMenu = false;
+                                    while (!backToShippingMenu) {
+                                        CheckoutOption checkoutOption = CheckoutOption.fromInput(Utils.getCheckoutCustomerInput());
+                                        if (checkoutOption == null) {
+                                            System.out.println("Your option is invalid. Please try again with 1 or 2");
+                                            continue;
+                                        }
+
+                                        switch (checkoutOption) {
+                                            case CHECK_OUT -> {
+                                                cartService.checkOut(loggedInCustomer, shipping);
+                                                backToShippingMenu = true;
+                                                backToCartMenu = true;
+                                                backToMainMenu = true;
+                                            }
+                                            case RETURN -> backToShippingMenu = true;
+                                        }
+                                    }
+                                }
+                            }
                             case RETURN -> backToMainMenu = true;
                         }
                     }

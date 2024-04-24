@@ -21,9 +21,32 @@ public class Utils {
     public static void printItemEnd() {
         System.out.println("-------------------------------------------------------");
     }
+
+    public static void printVoucherHeader() {
+        System.out.println("-----------------------------------------------------------------------------------");
+        System.out.format("| %-25s | %-15s | %-15s | %-15s |", "Voucher Type", "Discount Rate", "Minimum Spend", "Amount");
+        System.out.println("\n-----------------------------------------------------------------------------------");
+    }
+    public static void printVoucher(String type, float discountRate, float minimumSpend, int amount) {
+        System.out.format("| %-25s | %-15s | %-15s | %-15s |\n", type, discountRate, minimumSpend, amount);
+    }
+    public static void printVoucherEnd() {
+        System.out.println("-----------------------------------------------------------------------------------");
+    }
+    public static void printShippingHeader() {
+        System.out.println("-------------------------------------------------------");
+        System.out.format("| %-15s | %-15s | %-15s |", "Type", "Duration", "Price");
+        System.out.println("\n-------------------------------------------------------");
+    }
+    public static void printShipping(String type, int duration, float price) {
+        System.out.format("| %-15s | %-15s | %-15s |\n", type, duration, price);
+    }
+    public static void printShippingEnd() {
+        System.out.println("-------------------------------------------------------");
+    }
     public static int getMainMenuCustomerInput(String name) {
         Scanner sc = new Scanner(System.in);
-        System.out.println("Welcome " + name + " to Main Menu");
+        System.out.println("\nWelcome " + name + " to Main Menu");
         System.out.println("1. View Cart");
         System.out.println("2. View Rank");
         System.out.println("3. View Shopping Item");
@@ -33,7 +56,7 @@ public class Utils {
     }
     public static int getCartCustomerInput() {
         Scanner sc = new Scanner(System.in);
-        System.out.println("1. Check Out");
+        System.out.println("1. Select shipping method");
         System.out.println("2. Return to Main Menu");
         System.out.print("Please enter your option: ");
         return sc.nextInt();
@@ -41,6 +64,23 @@ public class Utils {
     public static int getShopCustomerInput() {
         Scanner sc = new Scanner(System.in);
         System.out.println("1. Buy");
+        System.out.println("2. Return to Main Menu");
+        System.out.print("Please enter your option: ");
+        return sc.nextInt();
+    }
+    public static int getShippingCustomerInput() {
+        Scanner sc = new Scanner(System.in);
+        System.out.println("Please select shipping method");
+        System.out.println("1. Basic");
+        System.out.println("2. Fast");
+        System.out.println("3. Saving");
+        System.out.println("4. Return to Cart Menu");
+        System.out.print("Please enter your option: ");
+        return sc.nextInt();
+    }
+    public static int getCheckoutCustomerInput() {
+        Scanner sc = new Scanner(System.in);
+        System.out.println("1. Check Out");
         System.out.println("2. Return to Main Menu");
         System.out.print("Please enter your option: ");
         return sc.nextInt();

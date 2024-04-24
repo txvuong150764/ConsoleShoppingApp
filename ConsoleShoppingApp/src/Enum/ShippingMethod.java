@@ -1,19 +1,21 @@
 package Enum;
 
-public enum ShoppingCartOption {
-    SELECT_SHIPPING_METHOD(1),
-    RETURN(2);
+public enum ShippingMethod {
+    BASIC(1),
+    FAST(2),
+    SAVING(3),
+    RETURN(4);
 
     private final int value;
-    private ShoppingCartOption(int value) {
+    private ShippingMethod(int value) {
         this.value = value;
     }
     private int getValue() {
         return this.value;
     }
 
-    public static ShoppingCartOption fromInput(int input) {
-        for(ShoppingCartOption type : values()) {
+    public static ShippingMethod fromInput(int input) {
+        for(ShippingMethod type : values()) {
             if(type.getValue() == input) {
                 return type;
             }
