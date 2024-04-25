@@ -42,7 +42,7 @@ public class Main {
                         }
                         switch (shoppingCartOption) {
                             case SELECT_SHIPPING_METHOD -> {
-                                if(cartService.isEmpty(loggedInCustomer)) {
+                                if(cartService.isEmpty(loggedInCustomer.getShoppingCart())) {
                                     System.out.println("Your cart is empty. Redirect to main menu");
                                     backToMainMenu = true;
                                     break;
@@ -88,7 +88,7 @@ public class Main {
                 case VIEW_RANK -> customerService.viewRank(loggedInCustomer);
                 case VIEW_SHOP_ITEMS -> {
                     boolean backToMainMenu = false;
-                    shopService.viewItems(loggedInCustomer);
+                    shopService.viewItems(loggedInCustomer.getShop());
                     while(!backToMainMenu) {
                         ShoppingOption shoppingOption = ShoppingOption.fromInput(Utils.getShopCustomerInput());
                         if(shoppingOption == null) {

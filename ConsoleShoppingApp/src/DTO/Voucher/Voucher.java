@@ -4,18 +4,15 @@ public class Voucher {
     String type;
     float discountRate;
     int amount;
-
+    int minimumSpend;
     public void setAmount(int amount) {
         this.amount = amount;
     }
-
-    float minimumSpend;
-
     public float getDiscountRate() {
         return discountRate;
     }
 
-    public float getMinimumSpend() {
+    public int getMinimumSpend() {
         return minimumSpend;
     }
 
@@ -23,7 +20,7 @@ public class Voucher {
         return amount;
     }
 
-    public Voucher(float discountRate, int amount, float minimumSpend) {
+    public Voucher(float discountRate, int amount, int minimumSpend) {
         this.discountRate = discountRate;
         this.amount = amount;
         this.minimumSpend = minimumSpend;

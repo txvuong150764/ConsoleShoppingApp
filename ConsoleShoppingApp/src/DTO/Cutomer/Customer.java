@@ -14,7 +14,7 @@ public class Customer {
     String rank;
     ArrayList<Item> shoppingCart;
     ArrayList<Voucher> voucherList;
-    float discountRate;
+
     public Customer(String name, String password, Shop shop, float loyalPoints, ArrayList<Item> shoppingCart) {
         this.name = name;
         this.password = password;
@@ -22,17 +22,15 @@ public class Customer {
         this.loyalPoints = loyalPoints;
         this.setRank(loyalPoints);
         this.shoppingCart = shoppingCart;
-        this.discountRate = 0;
         this.voucherList = new ArrayList<>();
     }
 
     public void setShoppingCart(ArrayList<Item> shoppingCart) {
         this.shoppingCart = shoppingCart;
     }
-    public void addNewItemToCart(Item item) {
-        this.shoppingCart.add(item);
+    public void setShop(Shop shop) {
+        this.shop = shop;
     }
-
     public void setRank(float loyalPoints) {
         if(loyalPoints < 100) {
             this.rank = "Common";
@@ -75,15 +73,9 @@ public class Customer {
     public ArrayList<Voucher> getVoucherList() {
         return voucherList;
     }
-
     public ArrayList<Item> getShoppingCart() {
         return shoppingCart;
     }
-
-    public float getDiscountRate() {
-        return discountRate;
-    }
-
     public Customer classifyCustomer(String rank) {
         switch (rank) {
             case "Silver" -> {

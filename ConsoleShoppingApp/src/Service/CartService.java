@@ -27,7 +27,6 @@ public class CartService {
 
         return ans;
     }
-
     public float totalPrice(float totalItemPrice, float shippingPrice, Voucher shippingVoucher, Voucher itemVoucher) {
         float shippingDiscount = shippingVoucher == null ? 0 : shippingVoucher.getDiscountRate();
         float itemDiscount = itemVoucher == null ? 0 : itemVoucher.getDiscountRate();
@@ -74,17 +73,16 @@ public class CartService {
         System.out.println("You paid " + priceAfterDiscount);
         System.out.println("You received " + loyalPointsGained + " points.");
     }
-    public void updateCart(Customer customer, Item item, int amount) {
-        for(Item i : customer.getShoppingCart()) {
+    public void updateCart(ArrayList<Item> shoppingCart, Item item, int amount) {
+        for(Item i : shoppingCart) {
             if(i.getName().equalsIgnoreCase(item.getName())) {
                 item.setAmount(i.getAmount() + amount);
                 return;
             }
         }
-        customer.addNewItemToCart(new Item(item.getName(), item.getPrice(), amount));
+        shoppingCart.add(new Item(item.getName(), item.getPrice(), amount));
     }
-
-    public boolean isEmpty(Customer customer) {
-        return customer.getShoppingCart().isEmpty();
+    public boolean isEmpty(ArrayList<Item> shoppingCart) {
+        return shoppingCart.isEmpty();
     }
 }

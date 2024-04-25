@@ -2,16 +2,18 @@ package Service;
 
 import DTO.Cutomer.Customer;
 import DTO.Item;
+import DTO.Shop.Shop;
+import DTO.Voucher.Voucher;
 import Utils.Utils;
 
 import java.util.Scanner;
 
 public class ShopService {
     CartService cartService = new CartService();
-    public void viewItems(Customer customer) {
-        System.out.println("Welcome to " + customer.getShop().getName() + " items list");
+    public void viewItems(Shop shop) {
+        System.out.println("Welcome to " + shop.getName() + " items list");
         Utils.printItemHeader();
-        for(Item item : customer.getShop().getItemList()) {
+        for(Item item : shop.getItemList()) {
             Utils.printItem(item.getName(), item.getPrice(), item.getAmount());
         }
         Utils.printItemEnd();
@@ -33,11 +35,12 @@ public class ShopService {
                     System.out.println("Invalid amount. Please re-enter.");
                 }
                 item.setAmount(item.getAmount() - amount);
-                cartService.updateCart(customer, item, amount);
+                cartService.updateCart(customer.getShoppingCart(), item, amount);
                 System.out.println("You bought " + amount + " " + item.getName());
                 return;
             }
         }
         System.out.println("Invalid item. Please re-enter.");
     }
+
 }

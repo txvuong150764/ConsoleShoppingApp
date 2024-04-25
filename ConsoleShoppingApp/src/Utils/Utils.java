@@ -33,6 +33,17 @@ public class Utils {
     public static void printVoucherEnd() {
         System.out.println("-----------------------------------------------------------------------------------");
     }
+    public static void printShopVoucherHeader() {
+        System.out.println("-----------------------------------------------------------------------------------");
+        System.out.format("| %-25s | %-15s | %-15s | %-15s |", "Voucher Type", "Discount Rate", "Minimum Buy", "Amount");
+        System.out.println("\n-----------------------------------------------------------------------------------");
+    }
+    public static void printShopVoucher(String type, float discountRate, int minimumBuy, int amount) {
+        System.out.format("| %-25s | %-15s | %-15s | %-15s |\n", type, discountRate, minimumBuy, amount);
+    }
+    public static void printShopVoucherEnd() {
+        System.out.println("-----------------------------------------------------------------------------------");
+    }
     public static void printShippingHeader() {
         System.out.println("-------------------------------------------------------");
         System.out.format("| %-15s | %-15s | %-15s |", "Type", "Duration", "Price");
@@ -142,7 +153,8 @@ public class Utils {
                     }
                 }
                 sc.close();
-                return new Shop(shopName, itemList);
+                Shop shop = new Shop(shopName, itemList);
+                return shop.classifyShop(shopName);
             }
         } catch (IOException e) {
             throw new RuntimeException(e);

@@ -1,13 +1,13 @@
 package Service;
 
 import DTO.Cutomer.Customer;
-import DTO.Voucher.Voucher;
-import Utils.Utils;
 
 import java.util.ArrayList;
 import java.util.Scanner;
 
 public class CustomerService {
+    ShopService shopService = new ShopService();
+    VoucherService voucherService = new VoucherService();
     public Customer getCustomer(ArrayList<Customer> customers, String name, String password) {
         for(Customer customer : customers) {
             if(customer.getName().equals(name) && customer.getPassword().equals(password)) {
@@ -19,11 +19,10 @@ public class CustomerService {
     public void viewRank(Customer customer) {
         System.out.println("\nYour rank is " + customer.getRank() + " with " + customer.getLoyalPoints() + " loyalty points.");
         System.out.println("Benefit for " + customer.getRank() + " customer are listed below: ");
-        Utils.printVoucherHeader();
-        for(Voucher voucher : customer.getVoucherList()) {
-            Utils.printVoucher(voucher.getType(), voucher.getDiscountRate(), voucher.getMinimumSpend(), voucher.getAmount());
-        }
-        Utils.printVoucherEnd();
+        voucherService.printRankVoucher(customer.getVoucherList());
+
+        System.out.println("Benefit for customer of " + customer.getShop().getName());
+        voucherService.printShopVouchers(customer.getShop());
     }
     public Customer login(ArrayList<Customer> customers) {
         Scanner sc = new Scanner(System.in);

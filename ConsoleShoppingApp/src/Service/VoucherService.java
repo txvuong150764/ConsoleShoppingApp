@@ -2,7 +2,9 @@ package Service;
 
 import DTO.Cutomer.Customer;
 import DTO.Item;
+import DTO.Shop.Shop;
 import DTO.Voucher.Voucher;
+import Utils.Utils;
 
 import java.util.ArrayList;
 
@@ -47,5 +49,21 @@ public class VoucherService {
                 }
             }
         }
+    }
+    public void printRankVoucher(ArrayList<Voucher> vouchers) {
+        Utils.printVoucherHeader();
+        for(Voucher voucher : vouchers) {
+            Utils.printVoucher(voucher.getType(), voucher.getDiscountRate(), voucher.getMinimumSpend(), voucher.getAmount());
+        }
+        Utils.printVoucherEnd();
+    }
+    public void printShopVouchers(Shop shop) {
+        Utils.printShopVoucherHeader();
+        for(String itemName : shop.getVoucherList().keySet()) {
+            for(Voucher voucher : shop.getVoucherList().get(itemName)) {
+                Utils.printShopVoucher(itemName, voucher.getDiscountRate(), voucher.getMinimumSpend(), voucher.getAmount());
+            }
+        }
+        Utils.printVoucherEnd();;
     }
 }
