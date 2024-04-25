@@ -53,7 +53,12 @@ public class VoucherService {
     public void printRankVoucher(ArrayList<Voucher> vouchers) {
         Utils.printVoucherHeader();
         for(Voucher voucher : vouchers) {
-            Utils.printVoucher(voucher.getType(), voucher.getDiscountRate(), voucher.getMinimumSpend(), voucher.getAmount());
+            if(isValidVoucher(voucher)) {
+                Utils.printVoucher(voucher.getType(), voucher.getDiscountRate(), voucher.getMinimumSpend(), voucher.getAmount());
+            }
+            else {
+                vouchers.remove(voucher);
+            }
         }
         Utils.printVoucherEnd();
     }
@@ -65,5 +70,8 @@ public class VoucherService {
             }
         }
         Utils.printVoucherEnd();;
+    }
+    public boolean isValidVoucher(Voucher voucher) {
+        return voucher != null;
     }
 }

@@ -34,6 +34,7 @@ public class CartService {
     }
     public void viewCartToCheckout(Customer customer, Shipping shipping) {
         float totalItemPrice = this.totalItemPrice(customer.getShoppingCart());
+        ArrayList<Voucher> appliedVouchers = new ArrayList<>();
 
         System.out.println("Cart summarization: ");
         viewCart(customer.getShoppingCart());
@@ -44,18 +45,17 @@ public class CartService {
         Utils.printShippingEnd();
 
         System.out.println("Best voucher will be applied: ");
-        Utils.printVoucherHeader();
         Voucher bestShippingVoucher = voucherService.bestShippingVoucher(customer.getVoucherList());
         Voucher bestItemVoucher = voucherService.bestItemVoucher(customer.getVoucherList(), totalItemPrice);
-        Utils.printVoucher(bestShippingVoucher.getType(), bestShippingVoucher.getDiscountRate(), bestShippingVoucher.getMinimumSpend(), bestShippingVoucher.getAmount());
-        if (bestItemVoucher != null) {
-            Utils.printVoucher(bestItemVoucher.getType(), bestItemVoucher.getDiscountRate(), bestItemVoucher.getMinimumSpend(), bestItemVoucher.getAmount());
-        }
-        Utils.printVoucherEnd();
+
+        appliedVouchers.add(bestItemVoucher);
+        appliedVouchers.add(bestShippingVoucher);
+
+        voucherService.printRankVoucher(appliedVouchers);
 
         System.out.println("Total: " + this.totalPrice(totalItemPrice, shipping.getPrice(), bestShippingVoucher, bestItemVoucher));
     }
-    public void checkOut(Customer customer, Shipping shipping) {
+    public Customer checkOut(Customer customer, Shipping shipping) {
         float totalItemPrice = this.totalItemPrice(customer.getShoppingCart());
         Voucher bestShippingVoucher = voucherService.bestShippingVoucher(customer.getVoucherList());
         Voucher bestItemVoucher = voucherService.bestItemVoucher(customer.getVoucherList(), totalItemPrice);
@@ -69,9 +69,9 @@ public class CartService {
         customer.setLoyalPoints(customer.getLoyalPoints() + loyalPointsGained);
         customer.setRank(customer.getLoyalPoints());
         customer.setShoppingCart(new ArrayList<>());
-        customer = customer.classifyCustomer(customer.getRank());
         System.out.println("You paid " + priceAfterDiscount);
         System.out.println("You received " + loyalPointsGained + " points.");
+        return customer.classifyCustomer(customer.getRank());
     }
     public void updateCart(ArrayList<Item> shoppingCart, Item item, int amount) {
         for(Item i : shoppingCart) {

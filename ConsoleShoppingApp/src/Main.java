@@ -71,7 +71,7 @@ public class Main {
 
                                         switch (checkoutOption) {
                                             case CHECK_OUT -> {
-                                                cartService.checkOut(loggedInCustomer, shipping);
+                                                loggedInCustomer = cartService.checkOut(loggedInCustomer, shipping);
                                                 backToShippingMenu = true;
                                                 backToCartMenu = true;
                                                 backToMainMenu = true;
