@@ -2,7 +2,6 @@ package Service;
 
 import DTO.Cutomer.Customer;
 import DTO.Item;
-import DTO.Shipping.BasicShipping;
 import DTO.Shipping.Shipping;
 import DTO.Voucher.Voucher;
 import Utils.Utils;
@@ -10,59 +9,35 @@ import Utils.Utils;
 import java.util.ArrayList;
 
 public class CartService {
-    public void viewCart(Customer customer) {
+    VoucherService voucherService = new VoucherService();
+    public void viewCart(ArrayList<Item> shoppingCart) {
 
         Utils.printItemHeader();
-        for(Item item : customer.getShoppingCart()) {
+        for(Item item : shoppingCart) {
             Utils.printItem(item.getName(), item.getPrice(), item.getAmount());
         }
         Utils.printItemEnd();
-        System.out.println("Total: " + this.totalItemPrice(customer));
+        System.out.println("Total: " + this.totalItemPrice(shoppingCart));
     }
-    public float totalItemPrice(Customer customer) {
+    public float totalItemPrice(ArrayList<Item> shoppingCart) {
         float ans = 0;
-        for(Item item : customer.getShoppingCart()) {
+        for(Item item : shoppingCart) {
             ans += item.getPrice() * item.getAmount();
         }
 
         return ans;
     }
-    public Voucher bestShippingVoucher(Customer customer) {
-        float maxDiscount = 0F;
-        Voucher bestShippingVoucher = null;
-        for(Voucher voucher : customer.getVoucherList()) {
-            if(voucher.getType().equals("ShippingVoucher")) {
-                if(voucher.getDiscountRate() > maxDiscount) {
-                    maxDiscount = voucher.getDiscountRate();
-                    bestShippingVoucher = voucher;
-                }
-            }
-        }
-        return bestShippingVoucher;
-    }
-    public Voucher bestItemVoucher(Customer customer) {
-        float maxDiscount = 0F;
-        Voucher bestItemVoucher = null;
-        for(Voucher voucher : customer.getVoucherList()) {
-            if(voucher.getType().equals("ItemVoucher")) {
-                if(voucher.getDiscountRate() > maxDiscount && this.totalItemPrice(customer) >= voucher.getMinimumSpend()) {
-                    maxDiscount = voucher.getDiscountRate();
-                    bestItemVoucher = voucher;
-                }
-            }
-        }
-        return bestItemVoucher;
-    }
+
     public float totalPrice(float totalItemPrice, float shippingPrice, Voucher shippingVoucher, Voucher itemVoucher) {
         float shippingDiscount = shippingVoucher == null ? 0 : shippingVoucher.getDiscountRate();
         float itemDiscount = itemVoucher == null ? 0 : itemVoucher.getDiscountRate();
         return totalItemPrice * (1 - itemDiscount) + shippingPrice * (1 - shippingDiscount);
     }
     public void viewCartToCheckout(Customer customer, Shipping shipping) {
-        float totalItemPrice = this.totalItemPrice(customer);
+        float totalItemPrice = this.totalItemPrice(customer.getShoppingCart());
 
         System.out.println("Cart summarization: ");
-        viewCart(customer);
+        viewCart(customer.getShoppingCart());
 
         System.out.println("Shipping method: ");
         Utils.printShippingHeader();
@@ -71,8 +46,8 @@ public class CartService {
 
         System.out.println("Best voucher will be applied: ");
         Utils.printVoucherHeader();
-        Voucher bestShippingVoucher = this.bestShippingVoucher(customer);
-        Voucher bestItemVoucher = this.bestItemVoucher(customer);
+        Voucher bestShippingVoucher = voucherService.bestShippingVoucher(customer.getVoucherList());
+        Voucher bestItemVoucher = voucherService.bestItemVoucher(customer.getVoucherList(), totalItemPrice);
         Utils.printVoucher(bestShippingVoucher.getType(), bestShippingVoucher.getDiscountRate(), bestShippingVoucher.getMinimumSpend(), bestShippingVoucher.getAmount());
         if (bestItemVoucher != null) {
             Utils.printVoucher(bestItemVoucher.getType(), bestItemVoucher.getDiscountRate(), bestItemVoucher.getMinimumSpend(), bestItemVoucher.getAmount());
@@ -82,15 +57,15 @@ public class CartService {
         System.out.println("Total: " + this.totalPrice(totalItemPrice, shipping.getPrice(), bestShippingVoucher, bestItemVoucher));
     }
     public void checkOut(Customer customer, Shipping shipping) {
-        float totalItemPrice = this.totalItemPrice(customer);
-        Voucher bestShippingVoucher = this.bestShippingVoucher(customer);
-        Voucher bestItemVoucher = this.bestItemVoucher(customer);
+        float totalItemPrice = this.totalItemPrice(customer.getShoppingCart());
+        Voucher bestShippingVoucher = voucherService.bestShippingVoucher(customer.getVoucherList());
+        Voucher bestItemVoucher = voucherService.bestItemVoucher(customer.getVoucherList(), totalItemPrice);
 
         float priceAfterDiscount = this.totalPrice(totalItemPrice, shipping.getPrice(), bestShippingVoucher, bestItemVoucher);
         float loyalPointsGained = totalItemPrice * 0.1F;
 
-        customer.removeVoucher(bestItemVoucher);
-        customer.removeVoucher(bestShippingVoucher);
+        voucherService.removeVoucher(customer.getVoucherList(), bestItemVoucher);
+        voucherService.removeVoucher(customer.getVoucherList(), bestShippingVoucher);
 
         customer.setLoyalPoints(customer.getLoyalPoints() + loyalPointsGained);
         customer.setRank(customer.getLoyalPoints());

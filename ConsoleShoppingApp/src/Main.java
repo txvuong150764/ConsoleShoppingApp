@@ -33,7 +33,7 @@ public class Main {
                 case VIEW_CART -> {
                     System.out.println("Welcome to Shopping Cart");
                     boolean backToMainMenu = false;
-                    cartService.viewCart(loggedInCustomer);
+                    cartService.viewCart(loggedInCustomer.getShoppingCart());
                     while(!backToMainMenu) {
                         ShoppingCartOption shoppingCartOption = ShoppingCartOption.fromInput(Utils.getCartCustomerInput());
                         if(shoppingCartOption == null) {

@@ -76,22 +76,6 @@ public class Customer {
         return voucherList;
     }
 
-    public void removeVoucher(Voucher v) {
-        if (v == null) {
-            return;
-        }
-        for(Voucher voucher : voucherList) {
-            if(voucher.getType().equals(v.getType()) && voucher.getMinimumSpend() == v.getMinimumSpend() && voucher.getDiscountRate() == v.getDiscountRate()) {
-                if(voucher.getAmount() > 0) {
-                    voucher.setAmount(voucher.getAmount() - 1);
-                }
-                else {
-                    this.voucherList.remove(v);
-                }
-            }
-        }
-    }
-
     public ArrayList<Item> getShoppingCart() {
         return shoppingCart;
     }
